@@ -7,6 +7,8 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
+    Intent intentService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,5 +23,14 @@ public class MainActivity extends AppCompatActivity {
     public void onClickStop(View view) {
         Intent intent=new Intent(this,MyService.class);
         stopService(intent);
+    }
+
+    public void onClickStartIntent(View view) {
+        intentService =new Intent(this,MyIntentService.class);
+        startService(intentService);
+    }
+
+    public void onClickStopIntent(View view) {
+        if(intentService!=null) stopService(intentService);
     }
 }

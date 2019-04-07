@@ -7,9 +7,16 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        />
+
     <Button
         android:id="@+id/btn_start"
-        android:text="Start"
+        android:text="Start Simple Service"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_margin="15dp"
@@ -17,10 +24,26 @@
 
     <Button
         android:id="@+id/btn_stop"
-        android:text="Stop"
+        android:text="Stop Simple Service"
         android:layout_margin="15dp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:onClick="onClickStop"/>
+
+    <Button
+        android:id="@+id/btn_start_intent_service"
+        android:text="Start Intent Service"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="15dp"
+        android:onClick="onClickStartIntent"/>
+
+    <Button
+        android:id="@+id/btn_stop_stop_intent_service"
+        android:text="Stop Intent Service"
+        android:layout_margin="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:onClick="onClickStopIntent"/>
 
 </LinearLayout>
