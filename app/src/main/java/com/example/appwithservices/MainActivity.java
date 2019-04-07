@@ -12,6 +12,9 @@ public class MainActivity extends AppCompatActivity {
     Intent intentService;
     EditText et;
     ProgressBar progressBar;
+    public static String a;
+    public static String b;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
         et=findViewById(R.id.et);
         progressBar=findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.INVISIBLE);
+        a="im here!";
+        b="im here too!";
+
     }
 
     public void onClickStart(View view) {
