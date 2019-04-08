@@ -3,6 +3,7 @@
     package="com.example.appwithservices">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -23,9 +24,10 @@
         <receiver android:name=".NotificationReceiver">
             <intent-filter>
                 <action android:name="NEXT_ACTION"/>
+                <action android:name="PREV_ACTION"/>
+                <action android:name="PLAY_ACTION"/>
             </intent-filter>
         </receiver>
     </application>
-
 
 </manifest>
