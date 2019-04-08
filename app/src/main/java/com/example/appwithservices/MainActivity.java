@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     public static String a;
     public static String b;
     MediaPlayer mediaPlayer;
+    public static ArrayList<HashMap<String,String>> songList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setVisibility(View.INVISIBLE);
         a="im here!";
         b="im here too!";
-        ArrayList<HashMap<String,String>> songList=new SongsManager().getPlayList("/sdcard/");
+        songList=new SongsManager().getPlayList("/sdcard/");
 
         if(songList!=null){
             for(int i=0;i<songList.size();i++){
@@ -42,16 +43,16 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         mediaPlayer=new MediaPlayer();
-        String filePath = songList.get(0).get("file_path");
-        try {
-            mediaPlayer.setDataSource(filePath);
-            mediaPlayer.prepare();
-            Log.d("MyApp","set Dource succes");
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-        mediaPlayer.start();
+        //String filePath = songList.get(0).get("file_path");
+        //try {
+        //    mediaPlayer.setDataSource(filePath);
+        //    mediaPlayer.prepare();
+        //    Log.d("MyApp","set Dource succes");
+        //} catch (IOException e) {
+        //    e.printStackTrace();
+//
+        //}
+        //mediaPlayer.start();
 
     }
 
@@ -76,5 +77,9 @@ public class MainActivity extends AppCompatActivity {
             stopService(intentService);
             progressBar.setVisibility(View.GONE);
         }
+    }
+
+    public void onClickOpenPlayer(View view) {
+        startActivity(new Intent(this,SongsActivity.class));
     }
 }

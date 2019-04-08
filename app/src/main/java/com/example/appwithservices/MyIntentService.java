@@ -18,7 +18,7 @@ import android.widget.RemoteViews;
 
 public class MyIntentService extends IntentService {
 
-    boolean isStopped;
+
     NotificationManager manager;
 
     public MyIntentService() {
@@ -29,23 +29,14 @@ public class MyIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        startTask();
+        songSelect();
     }
 
 
 
 
-    private void startTask(){
+    private void songSelect(){
         showNotification();
-        for(int i=0;i<10;i++){
-            if (isStopped) return;
-            Log.d("MyApp","Service task on "+i+" step");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     private void showNotification() {
@@ -93,7 +84,6 @@ public class MyIntentService extends IntentService {
     public void onDestroy() {
         super.onDestroy();
         Log.d("MyApp","MyIntentService stopped");
-        isStopped=true;
         manager.cancel(0);
     }
 }
