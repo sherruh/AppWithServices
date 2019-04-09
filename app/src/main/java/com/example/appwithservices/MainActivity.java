@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar progressBar;
     public static String a;
     public static String b;
-    MediaPlayer mediaPlayer;
+
     public static ArrayList<HashMap<String,String>> songList;
 
     @Override
@@ -42,17 +42,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("MyApp"," name ="+fileName +" path = "+filePath);
             }
         }
-        mediaPlayer=new MediaPlayer();
-        //String filePath = songList.get(0).get("file_path");
-        //try {
-        //    mediaPlayer.setDataSource(filePath);
-        //    mediaPlayer.prepare();
-        //    Log.d("MyApp","set Dource succes");
-        //} catch (IOException e) {
-        //    e.printStackTrace();
-//
-        //}
-        //mediaPlayer.start();
 
     }
 

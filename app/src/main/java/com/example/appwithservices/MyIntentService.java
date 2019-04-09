@@ -9,6 +9,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -16,10 +17,13 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import java.io.IOException;
+
 public class MyIntentService extends IntentService {
 
 
     NotificationManager manager;
+    MediaPlayer mediaPlayer;
 
     public MyIntentService() {
         super("");
@@ -29,13 +33,27 @@ public class MyIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        songSelect();
+        String songPath=intent.getStringExtra("song");
+        songSelect(songPath);
     }
 
 
 
 
-    private void songSelect(){
+    private void songSelect(String songPath){
+        if (mediaPlayer==null){mediaPlayer=new MediaPlayer();}
+            else{mediaPlayer.reset();
+            Log.d("MyApp","reset succes");
+        }
+        mediaPlayer.stop();
+        try {
+            mediaPlayer.setDataSource(songPath);
+            mediaPlayer.prepare();
+            Log.d("MyApp","set Source succes");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mediaPlayer.start();
         showNotification();
     }
 
