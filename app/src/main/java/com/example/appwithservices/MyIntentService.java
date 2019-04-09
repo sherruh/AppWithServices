@@ -23,7 +23,7 @@ public class MyIntentService extends IntentService {
 
 
     NotificationManager manager;
-    MediaPlayer mediaPlayer;
+
 
     public MyIntentService() {
         super("");
@@ -40,24 +40,18 @@ public class MyIntentService extends IntentService {
 
 
 
-    private void songSelect(String songPath){
-        if (mediaPlayer==null){mediaPlayer=new MediaPlayer();}
-            else{mediaPlayer.reset();
-            Log.d("MyApp","reset succes");
-        }
-        mediaPlayer.stop();
+    private void songSelect(String songName){
+        showNotification(songName);
         try {
-            mediaPlayer.setDataSource(songPath);
-            mediaPlayer.prepare();
-            Log.d("MyApp","set Source succes");
-        } catch (IOException e) {
+            while (SongsActivity.mediaPlayer.isPlaying()){
+                Thread.sleep(1000);
+            }
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        mediaPlayer.start();
-        showNotification();
     }
 
-    private void showNotification() {
+    private void showNotification(String songName) {
         if(Build.VERSION.SDK_INT==Build.VERSION_CODES.O){
         NotificationChannel channel=new NotificationChannel("my_channel",
                 "new_message", NotificationManager.IMPORTANCE_HIGH);
@@ -65,7 +59,7 @@ public class MyIntentService extends IntentService {
         manager.createNotificationChannel(channel);
         NotificationCompat.Builder notification=new NotificationCompat.Builder(getBaseContext(),"my_channel");
         notification.setContentTitle(getString(R.string.app_name));
-        notification.setContentText("works");
+        notification.setContentText(songName);
         notification.setSmallIcon(R.mipmap.ic_launcher);
         startForeground(1,notification.build());
         }else{
@@ -86,10 +80,11 @@ public class MyIntentService extends IntentService {
             NotificationCompat.Builder notificationBuilder =   new NotificationCompat.Builder(this)
                     .setSmallIcon(R.mipmap.ic_launcher) // notification icon
                     .setContentTitle(getString(R.string.app_name)) // title for notification
-                    .setContentText("works") // message for notification
+                    .setContentText(songName) // message for notification
                     .setAutoCancel(true)
                     .setContentIntent(pressPendingIntent)
                     .addAction(android.R.drawable.ic_input_add, "Next", nextPendingIntent)
+                    .addAction(android.R.drawable.btn_radio, "Play", nextPendingIntent)
                     .addAction(android.R.drawable.ic_input_delete, "Prev", prevPendingIntent);
             manager =(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             manager.notify(0, notificationBuilder.build());

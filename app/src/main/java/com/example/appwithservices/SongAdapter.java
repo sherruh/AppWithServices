@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.HashMap;
 
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
