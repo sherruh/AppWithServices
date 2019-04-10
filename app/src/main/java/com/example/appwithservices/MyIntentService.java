@@ -52,8 +52,12 @@ public class MyIntentService extends IntentService {
     }
 
     private void showNotification(String songName) {
-        String playPause = "play";
-        if(SongsActivity.statusPlayer== SongsActivity.ControlPlayer.PLAY) playPause = "pause";
+        String playPause;
+        if(SongsActivity.statusPlayer== SongsActivity.ControlPlayer.PLAY ||
+                SongsActivity.statusPlayer== SongsActivity.ControlPlayer.RESUME) {playPause = "pause";}else{
+            playPause="play";
+            Log.d("MyApp","Paused!");
+        }
 
         if(Build.VERSION.SDK_INT==Build.VERSION_CODES.O){
         NotificationChannel channel=new NotificationChannel("my_channel",

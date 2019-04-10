@@ -39,11 +39,16 @@ public class SongsActivity extends AppCompatActivity {
             @Override
             public void onClick(int pos) {
                 songNumber=pos;
-                statusPlayer=ControlPlayer.PLAY;
-                startIntentService();
+                startPlay();
             }
         });
         ins=this;
+    }
+
+    private void startPlay(){
+        statusPlayer=ControlPlayer.PLAY;
+        startIntentService();
+        controlPlayer(statusPlayer);
     }
 
     public void startIntentService(){
@@ -52,16 +57,22 @@ public class SongsActivity extends AppCompatActivity {
         intent=new Intent(SongsActivity.this,MyIntentService.class);
         intent.putExtra("song",songName);
         startService(intent);
-        controlPlayer(statusPlayer);
     }
 
     public static SongsActivity getInstance(){
         return ins;
     }
 
-    public void controlPlayer(ControlPlayer statusPlayer){
+    public void controlPlayer(ControlPlayer mstatusPlayer){
 
-        switch (statusPlayer){
+        switch (mstatusPlayer){
+            case PREV:
+                songNumber--;
+                startPlay();
+            case NEXT:
+                songNumber++;
+                startPlay();
+                break;
             case PLAY:
                 if (mediaPlayer==null){mediaPlayer=new MediaPlayer();}
                 else{mediaPlayer.reset();
@@ -78,7 +89,9 @@ public class SongsActivity extends AppCompatActivity {
                 mediaPlayer.start();
                 break;
             case PAUSE:
-                mediaPlayer.pause();
+                startIntentService();
+                break;
+            case RESUME:
                 startIntentService();
         }
     }
