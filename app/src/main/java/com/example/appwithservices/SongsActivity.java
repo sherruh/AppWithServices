@@ -69,6 +69,7 @@ public class SongsActivity extends AppCompatActivity {
             case PREV:
                 songNumber--;
                 startPlay();
+                break;
             case NEXT:
                 songNumber++;
                 startPlay();

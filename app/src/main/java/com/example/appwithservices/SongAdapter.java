@@ -65,6 +65,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     clickListener.onClick(getAdapterPosition());
+                    //ivPlayPause.setBackgroundResource(R.drawable.ic_pause);
                 }
             });
         }
