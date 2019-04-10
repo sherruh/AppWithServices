@@ -43,7 +43,7 @@ public class MyIntentService extends IntentService {
     private void songSelect(String songName){
         showNotification(songName);
         try {
-            while (SongsActivity.mediaPlayer.isPlaying()){
+            while (SongsActivity.mediaPlayer.isPlaying() || SongsActivity.statusPlayer== SongsActivity.ControlPlayer.PAUSE){
                 Thread.sleep(1000);
             }
         } catch (InterruptedException e) {
@@ -52,6 +52,9 @@ public class MyIntentService extends IntentService {
     }
 
     private void showNotification(String songName) {
+        String playPause = "play";
+        if(SongsActivity.statusPlayer== SongsActivity.ControlPlayer.PLAY) playPause = "pause";
+
         if(Build.VERSION.SDK_INT==Build.VERSION_CODES.O){
         NotificationChannel channel=new NotificationChannel("my_channel",
                 "new_message", NotificationManager.IMPORTANCE_HIGH);
@@ -73,6 +76,10 @@ public class MyIntentService extends IntentService {
             nextReceive.setAction("NEXT_ACTION");//replace with your custom value
             PendingIntent nextPendingIntent = PendingIntent.getBroadcast(this, 12345, nextReceive, PendingIntent.FLAG_UPDATE_CURRENT);
 
+            Intent playPauseReceive = new Intent();//attach all keys starting with wzrk_ to your notification extras
+            playPauseReceive.setAction("PLAY_PAUSE_ACTION");//replace with your custom value
+            PendingIntent playPausePendingIntent = PendingIntent.getBroadcast(this, 12345, playPauseReceive, PendingIntent.FLAG_UPDATE_CURRENT);
+
             Intent prevReceive = new Intent();//attach all keys starting with wzrk_ to your notification extras
             prevReceive.setAction("PREV_ACTION");//replace with your custom value
             PendingIntent prevPendingIntent = PendingIntent.getBroadcast(this, 12345, prevReceive, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -83,9 +90,9 @@ public class MyIntentService extends IntentService {
                     .setContentText(songName) // message for notification
                     .setAutoCancel(true)
                     .setContentIntent(pressPendingIntent)
-                    .addAction(android.R.drawable.ic_input_add, "Next", nextPendingIntent)
-                    .addAction(android.R.drawable.btn_radio, "Play", nextPendingIntent)
-                    .addAction(android.R.drawable.ic_input_delete, "Prev", prevPendingIntent);
+                    .addAction(android.R.drawable.ic_input_delete, "Prev", prevPendingIntent)
+                    .addAction(android.R.drawable.btn_radio, playPause, playPausePendingIntent)
+                    .addAction(android.R.drawable.ic_input_add, "Next", nextPendingIntent);
             manager =(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             manager.notify(0, notificationBuilder.build());
         }

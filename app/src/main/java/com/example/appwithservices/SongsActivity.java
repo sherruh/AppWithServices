@@ -12,9 +12,20 @@ import java.io.IOException;
 
 public class SongsActivity extends AppCompatActivity {
 
+    public enum ControlPlayer{
+        PLAY,
+        PAUSE,
+        RESUME,
+        NEXT,
+        PREV
+    }
+
     SongAdapter songAdapter;
     Intent intent;
     public static MediaPlayer mediaPlayer;
+    public static ControlPlayer statusPlayer;
+    private static SongsActivity ins;
+    private int songNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,32 +38,49 @@ public class SongsActivity extends AppCompatActivity {
         songAdapter.setClickListener(new SongAdapter.ClickListener() {
             @Override
             public void onClick(int pos) {
-                if (intent!=null)stopService(intent);
-                String songName=MainActivity.songList.get(pos).get("file_name");
-                String songPath=MainActivity.songList.get(pos).get("file_path");
-                intent=new Intent(SongsActivity.this,MyIntentService.class);
-                intent.putExtra("song",songName);
-                startService(intent);
-                controlPlayer(songPath);
+                songNumber=pos;
+                statusPlayer=ControlPlayer.PLAY;
+                startIntentService();
             }
         });
+        ins=this;
     }
 
-    private void controlPlayer(String songPath){
+    public void startIntentService(){
+        if (intent!=null)stopService(intent);
+        String songName=MainActivity.songList.get(songNumber).get("file_name");
+        intent=new Intent(SongsActivity.this,MyIntentService.class);
+        intent.putExtra("song",songName);
+        startService(intent);
+        controlPlayer(statusPlayer);
+    }
 
-        if (mediaPlayer==null){mediaPlayer=new MediaPlayer();}
-        else{mediaPlayer.reset();
-            Log.d("MyApp","reset succes");
+    public static SongsActivity getInstance(){
+        return ins;
+    }
+
+    public void controlPlayer(ControlPlayer statusPlayer){
+
+        switch (statusPlayer){
+            case PLAY:
+                if (mediaPlayer==null){mediaPlayer=new MediaPlayer();}
+                else{mediaPlayer.reset();
+                    Log.d("MyApp","reset succes");
+                }
+                mediaPlayer.stop();
+                try {
+                    mediaPlayer.setDataSource(MainActivity.songList.get(songNumber).get("file_path"));
+                    mediaPlayer.prepare();
+                    Log.d("MyApp","set Source succes");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                mediaPlayer.start();
+                break;
+            case PAUSE:
+                mediaPlayer.pause();
+                startIntentService();
         }
-        mediaPlayer.stop();
-        try {
-            mediaPlayer.setDataSource(songPath);
-            mediaPlayer.prepare();
-            Log.d("MyApp","set Source succes");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        mediaPlayer.start();
     }
 
 

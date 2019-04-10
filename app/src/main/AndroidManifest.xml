@@ -28,7 +28,7 @@
             <intent-filter>
                 <action android:name="NEXT_ACTION" />
                 <action android:name="PREV_ACTION" />
-                <action android:name="PLAY_ACTION" />
+                <action android:name="PLAY_PAUSE_ACTION" />
             </intent-filter>
         </receiver>
     </application>
