@@ -67,10 +67,12 @@ public class SongsActivity extends AppCompatActivity {
 
         switch (mstatusPlayer){
             case PREV:
+                if(songNumber==0) songNumber=MainActivity.songList.size();
                 songNumber--;
                 startPlay();
                 break;
             case NEXT:
+                if(songNumber==MainActivity.songList.size()-1)songNumber=-1;
                 songNumber++;
                 startPlay();
                 break;

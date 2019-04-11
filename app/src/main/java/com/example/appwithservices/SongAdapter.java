@@ -59,7 +59,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ViewHolder> {
             super(itemView);
 
             tvSongName=itemView.findViewById(R.id.tv_song_name);
-            ivPlayPause=itemView.findViewById(R.id.iv_play_pause);
+            //ivPlayPause=itemView.findViewById(R.id.iv_play_pause);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
